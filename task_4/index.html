@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Task 4</title>
+</head>
+
+<body>
+  <h1>One</h1>
+
+  <iframe id="iframe" src="./iframe.html"></iframe>
+
+  <button id="get-item-button" type="getItem">
+    чтения
+  </button>
+  <button id="set-item-button" type="setItem">
+    записи
+  </button>
+  <button id="remove-item-button" type="removeItem">
+    удаления
+  </button>
+
+  <script>
+    window.addEventListener("message", function (event) {
+      switch (event.data.type) {
+        case "getItem":
+          console.log(event.data.item);
+          break;
+        case "setItem":
+          console.log("written");
+          break;
+        case "removeItem":
+          console.log("removed");
+          break;
+      }
+    });
+
+    var iframe = document.querySelector("#iframe");
+
+    var getItemButton = document.querySelector("#get-item-button");
+    var setItemButton = document.querySelector("#set-item-button");
+    var removeItemButton = document.querySelector("#remove-item-button");
+
+    getItemButton.addEventListener("click", function () {
+      iframe.contentWindow.postMessage({ type: "getItem", name: "item" }, "*");
+    });
+
+    setItemButton.addEventListener("click", function () {
+      iframe.contentWindow.postMessage({ type: "setItem", name: "item", value: "hello" }, "*");
+    });
+
+    removeItemButton.addEventListener("click", function () {
+      iframe.contentWindow.postMessage({ type: "removeItem", name: "item" }, "*");
+    });
+  </script>
+</body>
+
+</html>
